@@ -1,0 +1,15 @@
+.fl-widget-provider {
+  border: 0;
+  width: 100%;
+  background-color: transparent;
+}
+
+#redirectAction,
+#ssoProvider,
+.form-horizontal {
+  overflow: hidden;
+}
+
+.form-horizontal {
+  padding: 15px;
+}
