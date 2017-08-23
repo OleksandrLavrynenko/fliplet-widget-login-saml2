@@ -1,4 +1,7 @@
 Fliplet.Widget.instance('sso-saml', function (data) {
+  // Load session and prepare cookie
+  Fliplet.Session.get();
+
   $(this).click(function (event) {
     event.preventDefault();
 
