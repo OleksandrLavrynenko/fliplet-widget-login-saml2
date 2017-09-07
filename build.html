@@ -1,1 +1,10 @@
-<button class="btn-primary" data-sso-saml-id="{{ id }}">{{#if buttonLabel}}{{ buttonLabel }}{{else}}Sign in{{/if}}</button>
+<div class="sso-login text-center">
+  <button class="btn btn-primary" data-sso-saml-id="{{ id }}">{{#if buttonLabel}}{{ buttonLabel }}{{else}}Sign in{{/if}}</button>
+  <div class="sso-warning-holder alert alert-warning text-left hidden"></div>
+  <div class="sso-error-holder text-danger hidden"></div>
+</div>
+<div class="sso-confirmation text-center">
+  <h2>Welcome</h2>
+  <p>You have been authenticated and you can now continue to the app.</p>
+  <button class="btn btn-primary" data-sso-redirect>Continue</button>
+</div>
