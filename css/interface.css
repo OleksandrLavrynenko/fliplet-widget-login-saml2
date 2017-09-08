@@ -13,3 +13,7 @@
 .form-horizontal {
   padding: 15px;
 }
+
+.widget-holder h3 {
+  margin-top: 0;
+}
