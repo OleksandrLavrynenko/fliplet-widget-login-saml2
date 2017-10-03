@@ -1,6 +1,6 @@
 {
-  "name": "Single sign-on login",
-  "package": "com.fliplet.login-sso",
+  "name": "SAML2 Login",
+  "package": "com.fliplet.login.saml2",
   "version": "1.0.0",
   "icon": "img/icon.png",
   "tags": ["type:component", "category:security"],
