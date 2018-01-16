@@ -9,7 +9,7 @@ Fliplet().then(function() {
     selector: '#redirectAction',
     data: $.extend(true, {
       action: 'screen',
-      page: 'none',
+      page: '',
       transition: 'slide.left',
       options: {
         hideAction: true
