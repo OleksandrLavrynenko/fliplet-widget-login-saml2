@@ -21,7 +21,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     }
 
     ssoProvider
-      .authorize()
+      .authorize(data)
       .then(function onAuthorized() {
         $('.sso-login').hide();
         $('.sso-confirmation').fadeIn(250, function() {
