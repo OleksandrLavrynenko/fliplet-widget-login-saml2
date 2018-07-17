@@ -1,9 +1,22 @@
 Fliplet.Widget.instance('sso-saml', function(data) {
-  // Load session and prepare cookie
-  Fliplet.Session.get();
-  $('.sso-login').fadeIn(250);
+  var $btn = $(this);
+  var $error = $('.sso-error-holder');
 
-  $(this).click(function(event) {
+  var buttonLabel = $btn.text();
+
+  $btn.text('Please wait...').addClass('disabled');
+
+  // Load session and prepare cookie
+  Fliplet.Session.get().then(function () {
+    $btn.text(buttonLabel).removeClass('disabled');
+  }).catch(function (err) {
+    $btn.text(buttonLabel).removeClass('disabled');
+    console.error('Could not load the session', err);
+    $error.html(err.message || err.description || 'Please make sure you\'re connected to the internet before logging in.');
+    $error.removeClass('hidden');
+  });
+
+  $btn.click(function(event) {
     event.preventDefault();
 
     if (!data.passportType || !data.redirectAction) {
@@ -11,7 +24,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
       return;
     }
 
-    $('.sso-error-holder').addClass('hidden');
+   $error.addClass('hidden');
 
     var ssoProviderPackageName = 'com.fliplet.sso.' + data.passportType;
     var ssoProvider = Fliplet.Widget.get(ssoProviderPackageName);
@@ -23,7 +36,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     ssoProvider
       .authorize(data)
       .then(function onAuthorized() {
-        $('.sso-login').hide();
+        $btn.addClass('hidden');
         $('.sso-confirmation').fadeIn(250, function() {
           setTimeout(function() {
             Fliplet.Navigate.to(data.redirectAction);
@@ -31,10 +44,9 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         });
       })
       .catch(function onError(err) {
-        // woop woop
         console.error(err);
-        $('.sso-error-holder').html(err);
-        $('.sso-error-holder').removeClass('hidden');
+        $error.html(err);
+        $error.removeClass('hidden');
       });
   });
 });
