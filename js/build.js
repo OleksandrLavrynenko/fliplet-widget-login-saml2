@@ -20,11 +20,11 @@ Fliplet.Widget.instance('sso-saml', function(data) {
     event.preventDefault();
 
     if (!data.passportType || !data.redirectAction) {
-      console.warn('Incomplete component configuration');
+      Fliplet.UI.Toast('Incomplete component configuration');
       return;
     }
 
-   $error.addClass('hidden');
+    $error.addClass('hidden');
 
     var ssoProviderPackageName = 'com.fliplet.sso.' + data.passportType;
     var ssoProvider = Fliplet.Widget.get(ssoProviderPackageName);
@@ -33,20 +33,41 @@ Fliplet.Widget.instance('sso-saml', function(data) {
       throw new Error('Provider ' + ssoProviderPackageName + ' has not registered on Fliplet.Widget.register with an "authorize()" function.');
     }
 
-    ssoProvider
-      .authorize(data)
-      .then(function onAuthorized() {
-        $btn.addClass('hidden');
-        $('.sso-confirmation').fadeIn(250, function() {
-          setTimeout(function() {
-            Fliplet.Navigate.to(data.redirectAction);
-          }, 100);
+    $btn.text('Please wait...').addClass('disabled');
+
+    ssoProvider.authorize(data).then(function onAuthorized() {
+      return Fliplet.UI.Toast({
+        position: 'bottom',
+        backdrop: true,
+        tapToDismiss: false,
+        duration: false,
+        message: 'Verifying your login...'
+      }).then(function (toast) {
+        return Fliplet.Session.passport('saml2').data().then(function (response) {
+          var user = response.user;
+          user.type = 'saml2';
+
+          return Fliplet.Profile.set({
+            user: user,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+          }).then(function () {
+            toast.dismiss();
+
+            $('.sso-confirmation').fadeIn(250, function() {
+              setTimeout(function() {
+                Fliplet.Navigate.to(data.redirectAction);
+              }, 100);
+            });
+          });            
         });
-      })
-      .catch(function onError(err) {
-        console.error(err);
-        $error.html(err);
-        $error.removeClass('hidden');
       });
+    }).catch(function onError(err) {
+      console.error(err);
+      $error.html(err);
+      $error.removeClass('hidden');
+      $btn.text(buttonLabel).removeClass('disabled');
+    });
   });
 });
