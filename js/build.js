@@ -44,14 +44,26 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         message: 'Verifying your login...'
       }).then(function (toast) {
         return Fliplet.Session.passport('saml2').data().then(function (response) {
-          var user = response.user;
-          user.type = 'saml2';
+          var user = {
+            type: 'saml2',
+            organizationId: Fliplet.Env.get('organizationId'),
+            region: Fliplet.User.getAuthToken().substr(0,2)
+          };
+          
+          if (response.user.id) {
+            user.id = response.user.id;
+          } else if (response.user.email) {
+            user.email = response.user.email;
+          } else {
+            user.firstName = response.user.firstName;
+            user.lastName = response.user.lastName;
+          }
 
           return Fliplet.Profile.set({
             user: user,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName
+            email: response.user.email,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName
           }).then(function () {
             toast.dismiss();
 
