@@ -70,6 +70,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
             $('.sso-confirmation').fadeIn(250, function() {
               setTimeout(function() {
                 // Do not track login related redirects
+                data.redirectAction.track = false;
                 Fliplet.Navigate.to(data.redirectAction);
               }, 100);
             });
