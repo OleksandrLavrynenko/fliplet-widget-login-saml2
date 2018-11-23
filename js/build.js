@@ -50,11 +50,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
             region: Fliplet.User.getAuthToken().substr(0,2)
           };
 
-          _.forEach(['id', 'email', 'firstName', 'lastName'], function (key) {
-            if (response.user[key]) {
-              user[key] = response.user[key];
-            }
-          });
+          _.assignIn(user, _.pick(response.user, ['id', 'email', 'firstName', 'lastName']));
 
           return Fliplet.Profile.set({
             user: user,
