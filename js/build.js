@@ -49,15 +49,8 @@ Fliplet.Widget.instance('sso-saml', function(data) {
             organizationId: Fliplet.Env.get('organizationId'),
             region: Fliplet.User.getAuthToken().substr(0,2)
           };
-          
-          if (response.user.id) {
-            user.id = response.user.id;
-          } else if (response.user.email) {
-            user.email = response.user.email;
-          } else {
-            user.firstName = response.user.firstName;
-            user.lastName = response.user.lastName;
-          }
+
+          _.assignIn(user, _.pick(response.user, ['id', 'email', 'firstName', 'lastName']));
 
           return Fliplet.Profile.set({
             user: user,
@@ -74,7 +67,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
                 Fliplet.Navigate.to(data.redirectAction);
               }, 100);
             });
-          });            
+          });
         });
       });
     }).catch(function onError(err) {
