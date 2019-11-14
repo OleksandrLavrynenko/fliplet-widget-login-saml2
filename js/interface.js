@@ -1,5 +1,7 @@
 Fliplet().then(function() {
   var data = Fliplet.Widget.getData() || {};
+  var page = Fliplet.Widget.getPage();
+  var omitPages = page ? [page.id] : [];
 
   data.passportType = 'saml2';
 
@@ -14,6 +16,7 @@ Fliplet().then(function() {
     data: $.extend(true, {
       action: 'screen',
       page: '',
+      omitPages: omitPages,
       transition: 'slide.left',
       options: {
         hideAction: true
