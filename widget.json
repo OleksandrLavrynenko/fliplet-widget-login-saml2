@@ -10,8 +10,7 @@
   "interface": {
     "dependencies": [
       "fliplet-core",
-      "fliplet-studio-ui",
-      "fliplet-datasources"
+      "fliplet-studio-ui"
     ],
     "assets": [
       "css/interface.css",
