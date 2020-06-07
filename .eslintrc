@@ -1,0 +1,13 @@
+{
+  "extends": "fliplet",
+  "globals": {
+    "describe": true,
+    "it": true,
+    "interfaceBrowser": true,
+    "expect": true,
+    "buildSelector": true,
+    "buildBrowser": true,
+    "before": true,
+    "casual": true
+  }
+}   
