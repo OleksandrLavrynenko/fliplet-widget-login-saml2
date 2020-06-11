@@ -39,7 +39,7 @@ Fliplet().then(function() {
     });
   });
 
-  ssoProvider.then(function(data) {
+  ssoProvider.then(function() {
     linkProvider.forwardSaveRequest();
   });
 

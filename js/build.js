@@ -7,9 +7,9 @@ Fliplet.Widget.instance('sso-saml', function(data) {
   $btn.text('Please wait...').addClass('disabled');
 
   // Load session and prepare cookie
-  Fliplet.Session.get().then(function () {
+  Fliplet.Session.get().then(function() {
     $btn.text(buttonLabel).removeClass('disabled');
-  }).catch(function (err) {
+  }).catch(function(err) {
     $btn.text(buttonLabel).removeClass('disabled');
     console.error('Could not load the session', err);
     $error.html(err.message || err.description || 'Please make sure you\'re connected to the internet before logging in.');
@@ -42,12 +42,12 @@ Fliplet.Widget.instance('sso-saml', function(data) {
         tapToDismiss: false,
         duration: false,
         message: 'Verifying your login...'
-      }).then(function (toast) {
-        return Fliplet.Session.passport('saml2').data().then(function (response) {
+      }).then(function(toast) {
+        return Fliplet.Session.passport('saml2').data().then(function(response) {
           var user = {
             type: 'saml2',
             organizationId: Fliplet.Env.get('organizationId'),
-            region: Fliplet.User.getAuthToken().substr(0,2)
+            region: Fliplet.User.getAuthToken().substr(0, 2)
           };
 
           _.assignIn(user, _.pick(response.user, ['id', 'email', 'firstName', 'lastName']));
@@ -57,7 +57,7 @@ Fliplet.Widget.instance('sso-saml', function(data) {
             email: response.user.email,
             firstName: response.user.firstName,
             lastName: response.user.lastName
-          }).then(function () {
+          }).then(function() {
             toast.dismiss();
 
             $('.sso-confirmation').fadeIn(250, function() {
