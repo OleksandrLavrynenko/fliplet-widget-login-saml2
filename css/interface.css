@@ -17,3 +17,7 @@
 .widget-holder h3 {
   margin-top: 0;
 }
+
+.alert-warning u {
+  cursor: pointer;
+}
