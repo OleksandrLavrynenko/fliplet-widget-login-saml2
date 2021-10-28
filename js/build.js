@@ -58,6 +58,11 @@ Fliplet.Widget.instance('sso-saml', function(data) {
             firstName: response.user.firstName,
             lastName: response.user.lastName
           }).then(function() {
+            return Fliplet.Hooks.run('login', {
+              passport: 'saml2',
+              userProfile: response.user
+            });
+          }).then(function () {
             toast.dismiss();
 
             $('.sso-confirmation').fadeIn(250, function() {
