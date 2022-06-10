@@ -89,5 +89,5 @@ Fliplet.Widget.instance('sso-saml', function(data) {
 
   Fliplet().then(function() {
     init();
-  })
+  });
 });
